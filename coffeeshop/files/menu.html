@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Menu — Brew & Co</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* ── FILTER BAR ───────────────────────── */
+    .filter-section {
+      background: var(--off-white);
+      padding: 2.5rem 5%;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+      position: sticky;
+      top: 78px;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .filter-label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-right: 0.5rem;
+    }
+
+    .filter-btn {
+      padding: 0.55rem 1.5rem;
+      background: transparent;
+      border: 1.5px solid rgba(0, 0, 0, 0.12);
+      color: var(--muted);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      transition: all var(--t);
+      cursor: pointer;
+    }
+
+    .filter-btn:hover,
+    .filter-btn.active {
+      background: var(--black);
+      border-color: var(--black);
+      color: var(--cream);
+    }
+
+    /* ── MENU GRID ────────────────────────── */
+    .menu-section {
+      background: var(--off-white);
+      padding: 5rem 5% 7rem;
+    }
+
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+
+    .menu-grid .product-card {
+      opacity: 1;
+      transition: opacity 0.3s, transform 0.3s;
+    }
+
+    .menu-grid .product-card.hidden {
+      display: none;
+    }
+
+    /* ── CATEGORY HEADER ─────────────────── */
+    .cat-header {
+      grid-column: 1 / -1;
+      padding: 1rem 0 0.5rem;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .cat-header h3 {
+      font-family: var(--ff-display);
+      font-size: 1.5rem;
+      font-weight: 300;
+    }
+
+    .cat-header span {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* ── SIDE-BY-SIDE PROMO ──────────────── */
+    .menu-promo {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      height: 380px;
+      margin: 0 5% 5rem;
+      overflow: hidden;
+    }
+
+    .promo-img {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .promo-img img {
+      transition: transform 0.7s var(--ease);
+    }
+
+    .promo-img:hover img {
+      transform: scale(1.04);
+    }
+
+    .promo-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.1) 60%);
+    }
+
+    .promo-text {
+      position: absolute;
+      bottom: 2rem;
+      left: 2rem;
+      right: 2rem;
+      color: #fff;
+    }
+
+    .promo-text h3 {
+      font-family: var(--ff-display);
+      font-size: 1.6rem;
+      font-weight: 300;
+      margin-bottom: 0.3rem;
+    }
+
+    .promo-text p {
+      font-size: 0.8rem;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    @media (max-width:1024px) {
+      .menu-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width:768px) {
+      .menu-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .menu-promo {
+        grid-template-columns: 1fr;
+        height: auto;
+      }
+
+      .promo-img {
+        height: 220px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a href="index.html" class="nav-logo">Brew <em>&</em> Co</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="menu.html" class="active">Menu</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div class="nav-right">
+      <a href="cart.html" class="nav-cart">
+        <svg viewBox="0 0 24 24">
+          <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
+          <line x1="3" y1="6" x2="21" y2="6" />
+          <path d="M16 10a4 4 0 01-8 0" />
+        </svg>
+        Cart
+        <span class="cart-count">0</span>
+      </a>
+    </div>
+  </nav>
+
+  <!-- PAGE HERO -->
+  <div class="page-hero">
+    <div class="page-hero-bg">
+      <img src="https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=1920&q=85&auto=format&fit=crop"
+        alt="Coffee beans roasting">
+    </div>
+    <div class="page-hero-overlay"></div>
+    <div class="page-hero-content">
+      <span class="eyebrow anim">Our Collection</span>
+      <h1 class="display-title anim anim-d1" style="font-size:clamp(2.8rem,5.5vw,5.5rem);color:#fff;">The
+        Full<br><em>Menu.</em></h1>
+      <p class="anim anim-d2">Single origins. Signature blends. Every cup a story. Explore our full range of premium
+        coffees, roasted fresh to order.</p>
+    </div>
+  </div>
+
+  <!-- FILTER BAR -->
+  <div class="filter-section">
+    <span class="filter-label">Filter by</span>
+    <button class="filter-btn active" onclick="filterMenu('all',this)">All Coffees</button>
+    <button class="filter-btn" onclick="filterMenu('light',this)">Light Roast</button>
+    <button class="filter-btn" onclick="filterMenu('medium',this)">Medium Roast</button>
+    <button class="filter-btn" onclick="filterMenu('dark',this)">Dark Roast</button>
+    <button class="filter-btn" onclick="filterMenu('blend',this)">Blends</button>
+    <button class="filter-btn" onclick="filterMenu('decaf',this)">Decaf</button>
+  </div>
+
+  <!-- MENU GRID -->
+  <div class="menu-section">
+    <div class="menu-grid">
+
+      <!-- ── LIGHT ROAST ── -->
+      <div class="cat-header" data-cat-header="light">
+        <h3>Light Roast</h3>
+        <span>Delicate · Floral · Bright</span>
+      </div>
+
+      <div class="product-card anim" data-cat="light">
+        <div class="img-wrap">
+          <img src="https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=700&q=85&auto=format&fit=crop"
+            alt="Ethiopian Coffee" loading="lazy">
+          <div class="img-overlay"></div>
+          <span class="product-badge">Bestseller</span>
+        </div>
+        <div class="product-body">
+          <div class="product-roast">Light Roast</div>
+          <div class="product-name">Ethiopian Yirgacheffe</div>
+          <div class="product-origin">📍 Yirgacheffe, Ethiopia</div>
+          <div class="product-tags"><span class="tag">Citrus</span><span class="tag">Jasmine</span><span
+              class="tag">Berry</span></div>
+          <div class="product-desc">Complex floral aromas with a bright, clean finish. A classic Ethiopian gem prized by
+            coffee lovers worldwide.</div>
+          <div class="product-footer">
+            <div class="product-price">$18.99</div>
+            <button class="add-btn" onclick="addToCart('eth-01','Ethiopian Yirgacheffe',18.99)">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card anim anim-d1" data-cat="light">
+        <div class="img-wrap">
+          <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=800&q=80"
+            alt="Kenya Coffee" loading="lazy">
+          <div class="img-overlay"></div>
+        </div>
+        <div class="product-body">
+          <div class="product-roast">Light Roast</div>
+          <div class="product-name">Kenya AA Peaberry</div>
+          <div class="product-origin">📍 Nyeri, Kenya</div>
+          <div class="product-tags"><span class="tag">Blackcurrant</span><span class="tag">Wine</span><span
+              class="tag">Bright</span></div>
+          <div class="product-desc">Intensely fruity with a wine-like complexity and long, lingering finish. Kenyan
+            coffee at its absolute finest.</div>
+          <div class="product-footer">
+            <div class="product-price">$22.99</div>
+            <button class="add-btn" onclick="addToCart('ken-01','Kenya AA Peaberry',22.99)">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── MEDIUM ROAST ── -->
+      <div class="cat-header" data-cat-header="medium" style="margin-top:2rem">
+        <h3>Medium Roast</h3>
+        <span>Balanced · Smooth · Versatile</span>
+      </div>
+
+      <div class="product-card anim" data-cat="medium">
+        <div class="img-wrap">
+          <img src="https://images.unsplash.com/photo-1459755486867-b55449bb39ff?w=700&q=85&auto=format&fit=crop"
+            alt="Guatemala Coffee" loading="lazy">
+          <div class="img-overlay"></div>
+        </div>
+        <div class="product-body">
+          <div class="product-roast">Medium Roast</div>
+          <div class="product-name">Guatemala Antigua</div>
+          <div class="product-origin">📍 Antigua, Guatemala</div>
+          <div class="product-tags"><span class="tag">Chocolate</span><span class="tag">Almond</span><span
+              class="tag">Spice</span></div>
+          <div class="product-desc">Velvety body with nutty sweetness and subtle spiced undertones. A crowd-pleasing
+            medium with real depth.</div>
+          <div class="product-footer">
+            <div class="product-price">$17.99</div>
+            <button class="add-btn" onclick="addToCart('gua-01','Guatemala Antigua',17.99)">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card anim anim-d1" data-cat="medium">
+        <div class="img-wrap">
+          <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=800&q=80"
+            alt="Sumatra Coffee" loading="lazy">
+          <div class="img-overlay"></div>
+        </div>
+        <div class="product-body">
+          <div class="product-roast">Medium Roast</div>
+          <div class="product-name">Sumatra Mandheling</div>
+          <div class="product-origin">📍 Sumatra, Indonesia</div>
+          <div class="product-tags"><span class="tag">Earthy</span><span class="tag">Cedar</span><span class="tag">Dark
+              Cocoa</span></div>
+          <div class="product-desc">Full-bodied and earthy with a distinctive syrupy texture. Unique, bold, and unlike
+            anything you've tried before.</div>
+          <div class="product-footer">
+            <div class="product-price">$19.99</div>
+            <button class="add-btn" onclick="addToCart('sum-01','Sumatra Mandheling',19.99)">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── DARK ROAST ── -->
+      <div class="cat-header" data-cat-header="dark" style="margin-top:2rem">
+        <h3>Dark Roast</h3>
+        <span>Bold · Intense · Rich</span>
+      </div>
+
+      <div class="product-card anim" data-cat="dark">
+        <div class="img-wrap">
+          <img src="https://images.unsplash.com/photo-1611854779393-1b2da9d400fe?w=700&q=85&auto=format&fit=crop"
+            alt="Colombian Dark Coffee" loading="lazy">
+          <div class="img-overlay"></div>
+          <span class="product-badge">Popular</span>
+        </div>
+        <div class="product-body">
+          <div class="product-roast">Dark Roast</div>
+          <div class="product-name">Colombian Dark Roast</div>
+          <div class="product-origin">📍 Huila, Colombia</div>
+          <div class="product-tags"><span class="tag">Rich</span><span class="tag">Caramel</span><span
+              class="tag">Velvet</span></div>
+          <div class="product-desc">Rich chocolate undertones with a velvety smooth finish. Colombia's finest roasted
+            deep and bold — a daily staple.</div>
+          <div class="product-footer">
+            <div class="product-price">$16.99</div>
+            <button class="add-btn" onclick="addToCart('col-01','Colombian Dark Roast',16.99)">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card anim anim-d1" data-cat="dark">
+        <div class="img-wrap">
+          <img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=700&q=85&auto=format&fit=crop"
+            alt="Espresso" loading="lazy">
+          <div class="img-overlay"></div>
+        </div>
+        <div class="product-body">
+          <div class="product-roast">Dark Roast</div>
+          <div class="product-name">Midnight Espresso</div>
+          <div class="product-origin">📍 Colombia + Brazil</div>
+          <div class="product-tags"><span class="tag">Smoky</span><span class="tag">Dark Choc</span><span
+              class="tag">Intense</span></div>
+          <div class="product-desc">Bold, intense & perfectly balanced for the espresso purist. A flawless pull, every
+            single morning.</div>
+          <div class="product-footer">
+            <div class="product-price">$21.99</div>
+            <button class="add-btn" onclick="addToCart('esp-01','Midnight Espresso',21.99)">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── BLENDS ── -->
+      <div class="cat-header" data-cat-header="blend" style="margin-top:2rem">
+        <h3>Signature Blends</h3>
+        <span>Crafted · Consistent · Approachable</span>
+      </div>
+
+      <div class="product-card anim" data-cat="blend">
+        <div class="img-wrap">
+          <img src="https://images.unsplash.com/photo-1497636577773-f1231844b336?w=700&q=85&auto=format&fit=crop"
+            alt="Morning Blend" loading="lazy">
+          <div class="img-overlay"></div>
+        </div>
+        <div class="product-body">
+          <div class="product-roast">Signature Blend</div>
+          <div class="product-name">The Morning Ritual</div>
+          <div class="product-origin">📍 Multi-Origin</div>
+          <div class="product-tags"><span class="tag">Smooth</span><span class="tag">Balanced</span><span
+              class="tag">Sweet</span></div>
+          <div class="product-desc">Our house blend — smooth, approachable, and reliably perfect every single morning.
+            The everyday essential.</div>
+          <div class="product-footer">
+            <div class="product-price">$14.99</div>
+            <button class="add-btn" onclick="addToCart('mor-01','The Morning Ritual',14.99)">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── DECAF ── -->
+      <div class="cat-header" data-cat-header="decaf" style="margin-top:2rem">
+        <h3>Decaf</h3>
+        <span>All Flavour · Zero Compromise</span>
+      </div>
+
+      <div class="product-card anim" data-cat="decaf">
+        <div class="img-wrap">
+          <img src="https://images.unsplash.com/photo-1572119865084-43c285814d63?w=700&q=85&auto=format&fit=crop"
+            alt="Decaf Coffee" loading="lazy">
+          <div class="img-overlay"></div>
+        </div>
+        <div class="product-body">
+          <div class="product-roast">Decaf · Swiss Water</div>
+          <div class="product-name">Swiss Water Decaf</div>
+          <div class="product-origin">📍 Colombia</div>
+          <div class="product-tags"><span class="tag">99.9% Caffeine-Free</span><span class="tag">Chemical-Free</span>
+          </div>
+          <div class="product-desc">All the flavour, none of the caffeine. Swiss Water Process — chemical-free and
+            completely delicious after dark.</div>
+          <div class="product-footer">
+            <div class="product-price">$15.99</div>
+            <button class="add-btn" onclick="addToCart('dec-01','Swiss Water Decaf',15.99)">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-top">
+      <div>
+        <a href="index.html" class="footer-logo">Brew <em>&</em> Co</a>
+        <p class="footer-tagline">Premium artisan coffee sourced ethically, roasted with precision, delivered to your
+          door fresh.</p>
+        <a href="cart.html" class="btn btn-gold" style="margin-top:0.5rem">View Cart</a>
+      </div>
+      <div class="footer-col">
+        <h5>Navigate</h5>
+        <a href="index.html">Home</a>
+        <a href="menu.html">Menu</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <div class="footer-col">
+        <h5>Info</h5>
+        <a href="#">Shipping Policy</a>
+        <a href="#">Returns</a>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Wholesale</a>
+      </div>
+      <div class="footer-col">
+        <h5>Contact</h5>
+        <a href="mailto:hello@brewandco.com">hello@brewandco.com</a>
+        <a href="tel:+12345678900">+1 (234) 567-8900</a>
+        <a href="#">Brooklyn, NY 11201</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 Brew & Co. All rights reserved.</span>
+      <span>Roasted with intention. Shipped with care.</span>
+    </div>
+  </footer>
+
+  <div id="toast"></div>
+  <script src="script.js"></script>
+  <script>
+    function filterMenu(cat, btn) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const cards = document.querySelectorAll('[data-cat]');
+      const headers = document.querySelectorAll('[data-cat-header]');
+
+      cards.forEach(c => c.classList.toggle('hidden', cat !== 'all' && c.dataset.cat !== cat));
+      headers.forEach(h => h.style.display = cat !== 'all' && h.dataset.catHeader !== cat ? 'none' : '');
+    }
+  </script>
+</body>
+
+</html>

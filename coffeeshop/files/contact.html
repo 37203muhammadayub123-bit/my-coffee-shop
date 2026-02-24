@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact — Brew & Co</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+
+  /* ── MAIN LAYOUT ──────────────────────── */
+  .contact-section { background: var(--off-white); padding: 7rem 5%; }
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.6fr;
+    gap: 5rem;
+    align-items: start;
+  }
+
+  /* ── INFO SIDE ────────────────────────── */
+  .info-title {
+    font-family: var(--ff-display);
+    font-size: clamp(2rem, 3.5vw, 3.2rem);
+    font-weight: 300;
+    line-height: 1.15;
+    margin-bottom: 1rem;
+  }
+  .info-sub { font-size:0.9rem; color:var(--muted); line-height:1.8; margin-bottom:3rem; }
+
+  .info-cards { display:flex; flex-direction:column; gap:1rem; }
+
+  .info-card {
+    display: grid;
+    grid-template-columns: 50px 1fr;
+    gap: 1.2rem;
+    align-items: center;
+    padding: 1.5rem;
+    background: #fff;
+    border: 1px solid rgba(0,0,0,0.06);
+    transition: box-shadow var(--t), transform var(--t);
+  }
+  .info-card:hover { box-shadow:0 10px 30px rgba(0,0,0,0.08); transform:translateX(4px); }
+
+  .info-icon-wrap {
+    width: 46px; height: 46px;
+    background: var(--black);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .info-icon-wrap svg {
+    width: 20px; height: 20px;
+    stroke: var(--gold);
+    fill: none;
+    stroke-width: 1.5;
+  }
+
+  .info-label { font-size:0.62rem; font-weight:700; letter-spacing:2.5px; text-transform:uppercase; color:var(--gold); margin-bottom:0.2rem; }
+  .info-value { font-size:0.9rem; font-weight:500; color:var(--black); }
+  .info-note { font-size:0.75rem; color:var(--muted); margin-top:0.15rem; }
+
+  .social-row {
+    display: flex;
+    gap: 0.8rem;
+    margin-top: 2rem;
+  }
+  .social-btn {
+    width: 40px; height: 40px;
+    background: var(--black);
+    color: var(--cream);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    transition: background var(--t);
+    cursor: pointer;
+    border: none;
+  }
+  .social-btn:hover { background: var(--gold); }
+
+  /* ── FORM SIDE ────────────────────────── */
+  .form-card {
+    background: #fff;
+    padding: 3.5rem;
+    border: 1px solid rgba(0,0,0,0.06);
+    box-shadow: 0 4px 30px rgba(0,0,0,0.04);
+  }
+
+  .form-heading {
+    font-family: var(--ff-display);
+    font-size: 1.6rem;
+    font-weight: 400;
+    margin-bottom: 0.4rem;
+  }
+  .form-sub { font-size:0.85rem; color:var(--muted); margin-bottom:2.5rem; }
+
+  .form-row { display:grid; grid-template-columns:1fr 1fr; gap:1.2rem; }
+
+  .field { margin-bottom:1.5rem; }
+  .field label {
+    display: block;
+    font-size: 0.67rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--black);
+    margin-bottom: 0.6rem;
+  }
+
+  .field input,
+  .field select,
+  .field textarea {
+    width: 100%;
+    padding: 0.9rem 1.2rem;
+    background: var(--off-white);
+    border: 1.5px solid rgba(0,0,0,0.1);
+    color: var(--black);
+    font-family: var(--ff-body);
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color var(--t), background var(--t);
+  }
+  .field input:focus,
+  .field select:focus,
+  .field textarea:focus {
+    border-color: var(--gold);
+    background: #fff;
+  }
+  .field input::placeholder,
+  .field textarea::placeholder { color: var(--muted); font-size:0.85rem; }
+  .field textarea { resize:vertical; min-height:140px; }
+  .field select { appearance:none; cursor:pointer; }
+
+  .submit-wrap { margin-top:0.5rem; }
+  .submit-btn {
+    width: 100%;
+    padding: 1.05rem;
+    background: var(--black);
+    color: var(--cream);
+    font-family: var(--ff-body);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    transition: background var(--t);
+    border: none;
+    cursor: pointer;
+  }
+  .submit-btn:hover { background: var(--gold); }
+
+  /* ── FAQ ──────────────────────────────── */
+  .faq-section { background: var(--cream); }
+  .faq-section .display-title { font-size:clamp(2rem,3.5vw,3.2rem); margin-bottom:1rem; }
+
+  .faq-grid {
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 1.5rem;
+    margin-top: 4rem;
+  }
+
+  .faq-card {
+    padding: 2.5rem;
+    background: #fff;
+    border: 1px solid rgba(0,0,0,0.06);
+    border-left: 3px solid var(--gold);
+    transition: transform var(--t), box-shadow var(--t);
+  }
+  .faq-card:hover { transform:translateY(-3px); box-shadow:0 14px 40px rgba(0,0,0,0.08); }
+
+  .faq-q {
+    font-family: var(--ff-display);
+    font-size: 1.1rem;
+    font-weight: 400;
+    margin-bottom: 0.9rem;
+    color: var(--black);
+  }
+  .faq-a { font-size:0.86rem; color:var(--muted); line-height:1.8; }
+
+  /* ── MAP STRIP ────────────────────────── */
+  .map-strip {
+    height: 400px;
+    position: relative;
+    overflow: hidden;
+  }
+  .map-strip img { width:100%; height:100%; object-fit:cover; }
+  .map-overlay {
+    position:absolute; inset:0;
+    background:linear-gradient(to bottom, transparent 50%, rgba(13,11,9,0.6));
+    display:flex; align-items:flex-end;
+    padding:2.5rem 5%;
+  }
+  .map-label {
+    display:flex; align-items:center; gap:1rem;
+    color:#fff;
+  }
+  .map-label svg { width:22px; height:22px; stroke:var(--gold); fill:none; stroke-width:1.5; }
+  .map-label div { }
+  .map-label strong { display:block; font-size:0.95rem; font-weight:600; margin-bottom:0.2rem; }
+  .map-label span { font-size:0.78rem; color:rgba(255,255,255,0.65); }
+
+  @media (max-width:768px) {
+    .contact-grid { grid-template-columns:1fr; gap:3rem; }
+    .form-row { grid-template-columns:1fr; }
+    .faq-grid { grid-template-columns:1fr; }
+    .form-card { padding:2rem; }
+  }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a href="index.html" class="nav-logo">Brew <em>&</em> Co</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="menu.html">Menu</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html" class="active">Contact</a></li>
+    </ul>
+    <div class="nav-right">
+      <a href="cart.html" class="nav-cart">
+        <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+        Cart<span class="cart-count">0</span>
+      </a>
+    </div>
+  </nav>
+
+  <!-- PAGE HERO -->
+  <div class="page-hero">
+    <div class="page-hero-bg">
+      <img src="https://images.unsplash.com/photo-1521017432531-fbd92d768814?w=1920&q=85&auto=format&fit=crop" alt="Coffee shop interior">
+    </div>
+    <div class="page-hero-overlay"></div>
+    <div class="page-hero-content">
+      <span class="eyebrow anim">Get In Touch</span>
+      <h1 class="display-title anim anim-d1" style="font-size:clamp(2.8rem,5.5vw,5.5rem);color:#fff;">We'd Love to<br><em>Hear From You.</em></h1>
+      <p class="anim anim-d2">Questions, feedback, bulk orders — our team is here. We respond to every message within 24 hours.</p>
+    </div>
+  </div>
+
+  <!-- CONTACT SECTION -->
+  <section class="contact-section">
+    <div class="contact-grid">
+
+      <!-- INFO SIDE -->
+      <div>
+        <h2 class="info-title anim">Contact<br>Information</h2>
+        <p class="info-sub anim anim-d1">Reach us however works best for you. We're a real team of coffee lovers — not a chatbot.</p>
+
+        <div class="info-cards">
+          <div class="info-card anim">
+            <div class="info-icon-wrap">
+              <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </div>
+            <div>
+              <div class="info-label">Email</div>
+              <div class="info-value">hello@brewandco.com</div>
+              <div class="info-note">We reply within 24 hours</div>
+            </div>
+          </div>
+
+          <div class="info-card anim anim-d1">
+            <div class="info-icon-wrap">
+              <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.68A2 2 0 012 .18h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+            </div>
+            <div>
+              <div class="info-label">Phone</div>
+              <div class="info-value">+1 (234) 567-8900</div>
+              <div class="info-note">Mon–Fri, 9am – 6pm EST</div>
+            </div>
+          </div>
+
+          <div class="info-card anim anim-d2">
+            <div class="info-icon-wrap">
+              <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
+            <div>
+              <div class="info-label">Roastery</div>
+              <div class="info-value">123 Roastery Lane, Brooklyn, NY</div>
+              <div class="info-note">Visit Mon–Sat, 8am – 5pm EST</div>
+            </div>
+          </div>
+
+          <div class="info-card anim anim-d3">
+            <div class="info-icon-wrap">
+              <svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
+            </div>
+            <div>
+              <div class="info-label">Free Shipping</div>
+              <div class="info-value">On orders over $40</div>
+              <div class="info-note">2–5 business days across the US</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="social-row anim">
+          <button class="social-btn" title="Instagram">IG</button>
+          <button class="social-btn" title="Facebook">FB</button>
+          <button class="social-btn" title="Twitter/X">X</button>
+          <button class="social-btn" title="Pinterest">PT</button>
+        </div>
+      </div>
+
+      <!-- FORM SIDE -->
+      <div class="form-card anim">
+        <div class="form-heading">Send Us a Message</div>
+        <div class="form-sub">Fill in the form and we'll get back to you within 24 hours — guaranteed.</div>
+
+        <form id="contact-form">
+          <div class="form-row">
+            <div class="field">
+              <label>First Name</label>
+              <input type="text" placeholder="John" required>
+            </div>
+            <div class="field">
+              <label>Last Name</label>
+              <input type="text" placeholder="Smith" required>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Email Address</label>
+            <input type="email" placeholder="john@example.com" required>
+          </div>
+
+          <div class="field">
+            <label>Phone (Optional)</label>
+            <input type="tel" placeholder="+1 (234) 567-8900">
+          </div>
+
+          <div class="field">
+            <label>Subject</label>
+            <select>
+              <option>Order Inquiry</option>
+              <option>Wholesale / Bulk Order</option>
+              <option>Subscription Help</option>
+              <option>General Question</option>
+              <option>Feedback & Suggestions</option>
+              <option>Press & Media</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>Your Message</label>
+            <textarea placeholder="Tell us how we can help you..."></textarea>
+          </div>
+
+          <div class="submit-wrap">
+            <button type="submit" class="submit-btn">Send Message →</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAP -->
+  <div class="map-strip">
+    <img src="https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=1920&q=80&auto=format&fit=crop" alt="Brooklyn New York" loading="lazy">
+    <div class="map-overlay">
+      <div class="map-label">
+        <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <div>
+          <strong>Brew & Co Roastery — Brooklyn, NY</strong>
+          <span>123 Roastery Lane, Brooklyn, NY 11201 · Open Mon–Sat, 8am–5pm</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <section class="section faq-section">
+    <div class="container">
+      <span class="eyebrow anim">Common Questions</span>
+      <h2 class="display-title anim anim-d1">FAQ</h2>
+      <p class="anim anim-d2" style="color:var(--muted); max-width:500px; line-height:1.8;">Quick answers to the questions we hear most from our customers.</p>
+      <div class="faq-grid">
+        <div class="faq-card anim">
+          <div class="faq-q">How fresh is the coffee when it arrives?</div>
+          <div class="faq-a">We roast to order. Your bag ships within 24–48 hours of roasting and arrives at peak freshness — never sitting in a warehouse collecting stale air.</div>
+        </div>
+        <div class="faq-card anim anim-d1">
+          <div class="faq-q">Do you offer subscriptions?</div>
+          <div class="faq-a">Yes! Subscribe to any product and save 15% on every order. Choose your frequency: weekly, bi-weekly, or monthly. Cancel or pause anytime with one click.</div>
+        </div>
+        <div class="faq-card anim anim-d2">
+          <div class="faq-q">What is your returns policy?</div>
+          <div class="faq-a">We stand behind our coffee 100%. If you're not satisfied for any reason, contact us within 30 days and we'll replace your order or issue a full refund. No questions asked.</div>
+        </div>
+        <div class="faq-card anim anim-d3">
+          <div class="faq-q">Do you offer wholesale pricing?</div>
+          <div class="faq-a">Absolutely. We work with cafes, restaurants, and offices of all sizes. Select "Wholesale / Bulk Order" in the form above and we'll send you our pricing guide within 24 hours.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-top">
+      <div>
+        <a href="index.html" class="footer-logo">Brew <em>&</em> Co</a>
+        <p class="footer-tagline">Premium artisan coffee sourced ethically, roasted with precision, delivered to your door fresh.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Navigate</h5>
+        <a href="index.html">Home</a>
+        <a href="menu.html">Menu</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <div class="footer-col">
+        <h5>Info</h5>
+        <a href="#">Shipping Policy</a>
+        <a href="#">Returns</a>
+        <a href="#">Privacy Policy</a>
+      </div>
+      <div class="footer-col">
+        <h5>Contact</h5>
+        <a href="mailto:hello@brewandco.com">hello@brewandco.com</a>
+        <a href="tel:+12345678900">+1 (234) 567-8900</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 Brew & Co. All rights reserved.</span>
+      <span>Roasted with intention. Shipped with care.</span>
+    </div>
+  </footer>
+
+  <div id="toast"></div>
+  <script src="script.js"></script>
+</body>
+</html>

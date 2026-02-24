@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Brew & Co — Premium Artisan Coffee</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+
+  /* ── HERO ─────────────────────────────── */
+  .hero {
+    position: relative;
+    height: 100vh;
+    min-height: 680px;
+    display: flex;
+    align-items: flex-end;
+    padding: 0 5% 8rem;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+  .hero-bg img {
+    object-position: center 40%;
+  }
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      rgba(13,11,9,0.90) 0%,
+      rgba(13,11,9,0.50) 50%,
+      rgba(13,11,9,0.15) 100%
+    );
+    z-index: 1;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 780px;
+  }
+
+  .hero-kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.8rem;
+  }
+  .hero-kicker span {
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold-lt);
+  }
+  .hero-kicker::before {
+    content: '';
+    display: block;
+    width: 36px;
+    height: 1px;
+    background: var(--gold);
+  }
+
+  .hero-title {
+    font-family: var(--ff-display);
+    font-size: clamp(3.2rem, 7vw, 7rem);
+    font-weight: 300;
+    line-height: 1.02;
+    color: #fff;
+    margin-bottom: 1.8rem;
+    letter-spacing: -1px;
+  }
+  .hero-title em {
+    font-style: italic;
+    color: var(--gold-lt);
+  }
+
+  .hero-sub {
+    font-size: 1rem;
+    font-weight: 300;
+    line-height: 1.85;
+    color: rgba(255,255,255,0.65);
+    max-width: 480px;
+    margin-bottom: 2.8rem;
+  }
+
+  .hero-actions { display:flex; gap:1rem; flex-wrap:wrap; }
+
+  .hero-scroll {
+    position: absolute;
+    bottom: 2.5rem; right: 5%;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8rem;
+    color: rgba(255,255,255,0.35);
+    font-size: 0.62rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  .hero-scroll::after {
+    content: '';
+    width: 1px;
+    height: 60px;
+    background: linear-gradient(to bottom, rgba(255,255,255,0.3), transparent);
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+  @keyframes scrollPulse {
+    0%,100% { opacity:0.3; }
+    50% { opacity:1; }
+  }
+
+  /* ── STATS BAR ────────────────────────── */
+  .stats-bar {
+    background: var(--black);
+    padding: 2.5rem 5%;
+    display: flex;
+    gap: 0;
+  }
+  .stat-item {
+    flex: 1;
+    text-align: center;
+    padding: 0 2rem;
+    border-right: 1px solid rgba(255,255,255,0.07);
+  }
+  .stat-item:last-child { border-right: none; }
+  .stat-num {
+    font-family: var(--ff-display);
+    font-size: 2.8rem;
+    font-weight: 300;
+    color: var(--gold-lt);
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.3);
+    margin-top: 0.6rem;
+  }
+
+  /* ── INTRO SPLIT ─────────────────────── */
+  .intro-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 620px;
+  }
+  .intro-img { position:relative; overflow:hidden; }
+  .intro-img img { width:100%; height:100%; object-fit:cover; }
+  .intro-text {
+    padding: 7rem 6%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: var(--cream);
+  }
+  .intro-text .display-title { font-size: clamp(2.2rem, 3.5vw, 3.5rem); margin-bottom:1.5rem; }
+  .intro-text p { font-size:0.95rem; line-height:1.9; color:var(--muted); margin-bottom:1.2rem; }
+  .intro-text .btn { margin-top:1.5rem; align-self:flex-start; }
+
+  /* ── FEATURED ─────────────────────────── */
+  .featured { background: var(--off-white); }
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5px;
+    background: rgba(0,0,0,0.06);
+    border: 1.5px solid rgba(0,0,0,0.06);
+  }
+
+  /* ── PROCESS ──────────────────────────── */
+  .process { background: var(--dark); color: var(--cream); }
+  .process .eyebrow { color: var(--gold-lt); }
+  .process .display-title { color: #fff; font-size: clamp(2rem,3.5vw,3.2rem); margin-bottom:1rem; }
+  .process-subtitle { color: rgba(242,237,228,0.6); font-size:0.95rem; line-height:1.8; max-width:520px; margin-bottom:4rem; }
+
+  .process-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+    background: rgba(255,255,255,0.05);
+  }
+
+  .process-step {
+    background: var(--roast);
+    padding: 2.5rem 2rem;
+    position: relative;
+    transition: background var(--t);
+  }
+  .process-step:hover { background: #3d2b1a; }
+
+  .step-num {
+    font-family: var(--ff-display);
+    font-size: 4rem;
+    font-weight: 300;
+    color: rgba(184,146,74,0.2);
+    line-height: 1;
+    margin-bottom: 1.5rem;
+  }
+  .step-icon { font-size: 1.8rem; margin-bottom: 1rem; }
+  .step-title {
+    font-family: var(--ff-display);
+    font-size: 1.2rem;
+    font-weight: 400;
+    color: #fff;
+    margin-bottom: 0.8rem;
+  }
+  .step-text { font-size:0.82rem; color:rgba(242,237,228,0.5); line-height:1.75; }
+
+  /* ── FULL-WIDTH BANNER ─────────────────── */
+  .banner {
+    position: relative;
+    height: 500px;
+    display: flex;
+    align-items: center;
+    padding: 0 5%;
+    overflow: hidden;
+  }
+  .banner-bg { position:absolute; inset:0; z-index:0; }
+  .banner-overlay {
+    position:absolute; inset:0;
+    background: linear-gradient(90deg, rgba(13,11,9,0.88) 0%, rgba(13,11,9,0.4) 60%, transparent 100%);
+    z-index:1;
+  }
+  .banner-content { position:relative; z-index:2; max-width:560px; color:#fff; }
+  .banner-content .eyebrow { color:var(--gold-lt); }
+  .banner-content .display-title { color:#fff; font-size:clamp(2.4rem,4vw,4rem); margin-bottom:1.2rem; }
+  .banner-content p { color:rgba(255,255,255,0.65); font-size:0.95rem; line-height:1.8; margin-bottom:2rem; }
+
+  /* ── TESTIMONIALS ─────────────────────── */
+  .testimonials { background: var(--cream); }
+  .testi-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-top: 4rem;
+  }
+  .testi-card {
+    padding: 2.5rem;
+    background: #fff;
+    border: 1px solid rgba(0,0,0,0.06);
+  }
+  .testi-stars { color: var(--gold); font-size:1rem; margin-bottom:1.2rem; letter-spacing:2px; }
+  .testi-quote {
+    font-family: var(--ff-display);
+    font-size: 1.1rem;
+    font-style: italic;
+    font-weight: 300;
+    line-height: 1.65;
+    color: var(--black);
+    margin-bottom: 1.5rem;
+  }
+  .testi-author { font-size:0.78rem; font-weight:600; letter-spacing:1.5px; text-transform:uppercase; color:var(--muted); }
+
+  /* ── RESPONSIVE ───────────────────────── */
+  @media (max-width:1024px) {
+    .process-grid { grid-template-columns: repeat(2,1fr); }
+  }
+  @media (max-width:768px) {
+    .intro-split { grid-template-columns:1fr; }
+    .intro-img { height: 350px; }
+    .products-grid { grid-template-columns: 1fr; }
+    .stats-bar { flex-wrap:wrap; }
+    .stat-item { flex: 1 1 45%; border-right:none; padding:1.5rem; border-bottom:1px solid rgba(255,255,255,0.07); }
+    .testi-grid { grid-template-columns:1fr; }
+    .process-grid { grid-template-columns:1fr; }
+    .banner { height:auto; padding:5rem 5%; }
+  }
+  </style>
+</head>
+<body>
+
+  <!-- ░░ NAVBAR ░░ -->
+  <nav class="navbar">
+    <a href="index.html" class="nav-logo">Brew <em>&</em> Co</a>
+    <ul class="nav-links">
+      <li><a href="index.html" class="active">Home</a></li>
+      <li><a href="menu.html">Menu</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div class="nav-right">
+      <a href="cart.html" class="nav-cart">
+        <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+        Cart
+        <span class="cart-count">0</span>
+      </a>
+    </div>
+  </nav>
+
+  <!-- ░░ HERO ░░ -->
+  <section class="hero">
+    <div class="hero-bg">
+      <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=1920&q=90&auto=format&fit=crop" alt="Coffee shop ambiance" loading="eager">
+    </div>
+    <div class="hero-overlay"></div>
+
+    <div class="hero-content">
+      <div class="hero-kicker">
+        <span>Artisan Coffee Since 2015</span>
+      </div>
+      <h1 class="hero-title">
+        Every Sip,<br>a <em>Perfect</em><br>Ritual.
+      </h1>
+      <p class="hero-sub">
+        Single-origin beans, sourced directly from small farms across 12 countries. Roasted to order. Shipped within 48 hours.
+      </p>
+      <div class="hero-actions">
+        <a href="menu.html" class="btn btn-gold">Shop Coffee</a>
+        <a href="about.html" class="btn btn-light">Our Story</a>
+      </div>
+    </div>
+
+    <div class="hero-scroll">Scroll</div>
+  </section>
+
+  <!-- ░░ STATS BAR ░░ -->
+  <div class="stats-bar">
+    <div class="stat-item anim">
+      <div class="stat-num">12+</div>
+      <div class="stat-label">Origins</div>
+    </div>
+    <div class="stat-item anim anim-d1">
+      <div class="stat-num">48</div>
+      <div class="stat-label">Unique Blends</div>
+    </div>
+    <div class="stat-item anim anim-d2">
+      <div class="stat-num">50k</div>
+      <div class="stat-label">Happy Customers</div>
+    </div>
+    <div class="stat-item anim anim-d3">
+      <div class="stat-num">100%</div>
+      <div class="stat-label">Organic</div>
+    </div>
+  </div>
+
+  <!-- ░░ INTRO SPLIT ░░ -->
+  <div class="intro-split">
+    <div class="intro-img anim">
+      <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=900&q=85&auto=format&fit=crop" alt="Barista pouring coffee" loading="lazy">
+    </div>
+    <div class="intro-text">
+      <span class="eyebrow anim">Our Philosophy</span>
+      <h2 class="display-title anim anim-d1">From Farm<br>to Your Cup.</h2>
+      <p class="anim anim-d2">We partner directly with family-owned farms in Ethiopia, Colombia, and Guatemala — cutting out the middleman to ensure fair wages and uncompromising quality.</p>
+      <p class="anim anim-d2">Our master roasters develop each bean's unique character at our Brooklyn roastery, so you taste coffee exactly as nature intended.</p>
+      <a href="about.html" class="btn btn-dark anim anim-d3">Discover Our Story</a>
+    </div>
+  </div>
+
+  <!-- ░░ FEATURED PRODUCTS ░░ -->
+  <section class="section featured">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-header-left">
+          <span class="eyebrow anim">Bestsellers</span>
+          <h2 class="display-title anim anim-d1" style="font-size:clamp(2.2rem,4vw,3.8rem)">Our Finest Picks</h2>
+        </div>
+        <a href="menu.html" class="btn btn-outline anim anim-d2">View Full Menu</a>
+      </div>
+
+      <div class="products-grid">
+        <!-- Card 1 -->
+        <div class="product-card anim">
+          <div class="img-wrap">
+            <img src="https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=700&q=85&auto=format&fit=crop" alt="Ethiopian Coffee">
+            <div class="img-overlay"></div>
+            <span class="product-badge">Bestseller</span>
+          </div>
+          <div class="product-body">
+            <div class="product-roast">Light Roast</div>
+            <div class="product-name">Ethiopian Yirgacheffe</div>
+            <div class="product-origin">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              Yirgacheffe, Ethiopia
+            </div>
+            <div class="product-tags">
+              <span class="tag">Citrus</span>
+              <span class="tag">Jasmine</span>
+              <span class="tag">Berry</span>
+            </div>
+            <div class="product-desc">Complex floral aromas with a bright, clean finish. A classic Ethiopian gem prized by connoisseurs worldwide.</div>
+            <div class="product-footer">
+              <div class="product-price">$18.99</div>
+              <button class="add-btn" onclick="addToCart('eth-01','Ethiopian Yirgacheffe',18.99,'https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=200')">Add to Cart</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="product-card anim anim-d1">
+          <div class="img-wrap">
+            <img src="https://images.unsplash.com/photo-1611854779393-1b2da9d400fe?w=700&q=85&auto=format&fit=crop" alt="Colombian Coffee">
+            <div class="img-overlay"></div>
+          </div>
+          <div class="product-body">
+            <div class="product-roast">Dark Roast</div>
+            <div class="product-name">Colombian Dark Roast</div>
+            <div class="product-origin">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              Huila, Colombia
+            </div>
+            <div class="product-tags">
+              <span class="tag">Dark Chocolate</span>
+              <span class="tag">Caramel</span>
+            </div>
+            <div class="product-desc">Rich chocolate undertones with a velvety smooth finish. Colombia's finest, roasted deep and bold.</div>
+            <div class="product-footer">
+              <div class="product-price">$16.99</div>
+              <button class="add-btn" onclick="addToCart('col-01','Colombian Dark Roast',16.99,'https://images.unsplash.com/photo-1611854779393-1b2da9d400fe?w=200')">Add to Cart</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="product-card anim anim-d2">
+          <div class="img-wrap">
+            <img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=700&q=85&auto=format&fit=crop" alt="Espresso Blend">
+            <div class="img-overlay"></div>
+            <span class="product-badge">New</span>
+          </div>
+          <div class="product-body">
+            <div class="product-roast">Signature Blend</div>
+            <div class="product-name">Midnight Espresso</div>
+            <div class="product-origin">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              Colombia + Brazil
+            </div>
+            <div class="product-tags">
+              <span class="tag">Smoky</span>
+              <span class="tag">Intense</span>
+              <span class="tag">Bold</span>
+            </div>
+            <div class="product-desc">Crafted for the espresso purist. Dark, intense, perfectly balanced — an unforgettable shot every morning.</div>
+            <div class="product-footer">
+              <div class="product-price">$21.99</div>
+              <button class="add-btn" onclick="addToCart('esp-01','Midnight Espresso',21.99,'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=200')">Add to Cart</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ░░ PROCESS ░░ -->
+  <section class="section process">
+    <div class="container">
+      <span class="eyebrow anim">How We Work</span>
+      <h2 class="display-title anim anim-d1">The Brew & Co Process</h2>
+      <p class="process-subtitle anim anim-d2">From seed to your cup — every step is deliberate, every decision guided by quality and respect for the craft.</p>
+
+      <div class="process-grid">
+        <div class="process-step anim">
+          <div class="step-num">01</div>
+          <div class="step-icon">🌱</div>
+          <div class="step-title">Direct Sourcing</div>
+          <div class="step-text">We visit farms personally, building multi-year relationships with farmers who share our obsession with quality.</div>
+        </div>
+        <div class="process-step anim anim-d1">
+          <div class="step-num">02</div>
+          <div class="step-icon">🔬</div>
+          <div class="step-title">Cupping & Selection</div>
+          <div class="step-text">Every lot is blind-cupped by our Q Graders before purchase. Only the top 5% of lots make the cut.</div>
+        </div>
+        <div class="process-step anim anim-d2">
+          <div class="step-num">03</div>
+          <div class="step-icon">🔥</div>
+          <div class="step-title">Artisan Roasting</div>
+          <div class="step-text">Roasted in small batches at our Brooklyn roastery. Each profile developed to unlock maximum flavor potential.</div>
+        </div>
+        <div class="process-step anim anim-d3">
+          <div class="step-num">04</div>
+          <div class="step-icon">📦</div>
+          <div class="step-title">Ship Within 48hrs</div>
+          <div class="step-text">Orders roasted and shipped within 48 hours. Peak freshness, guaranteed — every single time.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ░░ FULL-WIDTH BANNER ░░ -->
+  <div class="banner">
+    <div class="banner-bg">
+      <img src="https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=1920&q=85&auto=format&fit=crop" alt="Coffee fields" loading="lazy">
+    </div>
+    <div class="banner-overlay"></div>
+    <div class="banner-content">
+      <span class="eyebrow anim">Free Shipping Over $40</span>
+      <h2 class="display-title anim anim-d1">Start Your<br><em>Morning Ritual</em></h2>
+      <p class="anim anim-d2">Subscribe and save 15% on every order. Choose your frequency, change anytime — no strings attached.</p>
+      <a href="menu.html" class="btn btn-gold anim anim-d3">Shop All Coffee</a>
+    </div>
+  </div>
+
+  <!-- ░░ TESTIMONIALS ░░ -->
+  <section class="section testimonials">
+    <div class="container">
+      <span class="eyebrow anim">What Customers Say</span>
+      <h2 class="display-title anim anim-d1" style="font-size:clamp(2rem,3.5vw,3.2rem)">4.9 Stars Across 2,000+ Reviews</h2>
+      <div class="testi-grid">
+        <div class="testi-card anim">
+          <div class="testi-stars">★★★★★</div>
+          <div class="testi-quote">"The Ethiopian is unlike anything I've ever tasted. Floral, bright, and just stunning. I won't buy from anywhere else."</div>
+          <div class="testi-author">— Sarah M., New York</div>
+        </div>
+        <div class="testi-card anim anim-d1">
+          <div class="testi-stars">★★★★★</div>
+          <div class="testi-quote">"Arrived beautifully packaged, smelled incredible before I even opened it. The Midnight Espresso is a morning game-changer."</div>
+          <div class="testi-author">— James K., Chicago</div>
+        </div>
+        <div class="testi-card anim anim-d2">
+          <div class="testi-stars">★★★★★</div>
+          <div class="testi-quote">"I've tried every specialty coffee subscription out there. Brew & Co is the only one that makes me feel the difference in every single cup."</div>
+          <div class="testi-author">— Priya R., San Francisco</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ░░ FOOTER ░░ -->
+  <footer class="footer">
+    <div class="footer-top">
+      <div>
+        <a href="index.html" class="footer-logo">Brew <em>&</em> Co</a>
+        <p class="footer-tagline">Premium artisan coffee sourced ethically, roasted with precision, and delivered to your door in peak freshness.</p>
+        <a href="menu.html" class="btn btn-gold" style="margin-top:0.5rem">Shop Now</a>
+      </div>
+      <div class="footer-col">
+        <h5>Navigate</h5>
+        <a href="index.html">Home</a>
+        <a href="menu.html">Menu</a>
+        <a href="about.html">About Us</a>
+        <a href="contact.html">Contact</a>
+        <a href="cart.html">Cart</a>
+      </div>
+      <div class="footer-col">
+        <h5>Info</h5>
+        <a href="#">Shipping Policy</a>
+        <a href="#">Returns</a>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">Wholesale</a>
+      </div>
+      <div class="footer-col">
+        <h5>Contact</h5>
+        <a href="mailto:hello@brewandco.com">hello@brewandco.com</a>
+        <a href="tel:+12345678900">+1 (234) 567-8900</a>
+        <a href="#">123 Roastery Lane<br>Brooklyn, NY 11201</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 Brew & Co. All rights reserved.</span>
+      <span>Roasted with intention. Shipped with care.</span>
+    </div>
+  </footer>
+
+  <div id="toast"></div>
+  <script src="script.js"></script>
+</body>
+</html>

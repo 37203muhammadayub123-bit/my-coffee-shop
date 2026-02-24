@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cart — Brew & Co</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .cart-page {
+      background: var(--off-white);
+      padding: 7rem 5%;
+    }
+
+    .cart-layout {
+      display: grid;
+      grid-template-columns: 1.6fr 1fr;
+      gap: 3rem;
+      align-items: start;
+    }
+
+    /* ── CART ITEMS ───────────────────────── */
+    .cart-box {
+      background: #fff;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+    }
+
+    .cart-box-header {
+      padding: 1.8rem 2.2rem;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .cart-box-header h2 {
+      font-family: var(--ff-display);
+      font-size: 1.4rem;
+      font-weight: 400;
+    }
+
+    .cart-box-header span {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* ── CART ITEM ROW ────────────────────── */
+    .cart-item {
+      display: grid;
+      grid-template-columns: 90px 1fr auto;
+      gap: 1.5rem;
+      align-items: center;
+      padding: 1.8rem 2.2rem;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      transition: background var(--t);
+    }
+
+    .cart-item:last-child {
+      border-bottom: none;
+    }
+
+    .cart-item:hover {
+      background: var(--off-white);
+    }
+
+    .item-img {
+      width: 90px;
+      height: 90px;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .item-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .item-info {}
+
+    .item-type {
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.25rem;
+    }
+
+    .item-name {
+      font-family: var(--ff-display);
+      font-size: 1.15rem;
+      font-weight: 400;
+      margin-bottom: 0.4rem;
+    }
+
+    .item-unit-price {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .item-controls {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 1rem;
+    }
+
+    .item-total {
+      font-family: var(--ff-display);
+      font-size: 1.3rem;
+      font-weight: 600;
+    }
+
+    .qty-row {
+      display: flex;
+      align-items: center;
+      gap: 0;
+    }
+
+    .qty-btn {
+      width: 32px;
+      height: 32px;
+      background: var(--off-white);
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background var(--t);
+      color: var(--black);
+    }
+
+    .qty-btn:hover {
+      background: var(--black);
+      color: var(--cream);
+    }
+
+    .qty-display {
+      width: 40px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      font-weight: 600;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      border-left: none;
+      border-right: none;
+      background: #fff;
+    }
+
+    .remove-btn {
+      background: none;
+      border: none;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--muted);
+      cursor: pointer;
+      transition: color var(--t);
+      padding: 0;
+    }
+
+    .remove-btn:hover {
+      color: #c0392b;
+    }
+
+    /* ── EMPTY STATE ─────────────────────── */
+    .empty-cart {
+      padding: 5rem 2rem;
+      text-align: center;
+    }
+
+    .empty-icon {
+      width: 80px;
+      height: 80px;
+      border: 1.5px solid rgba(0, 0, 0, 0.1);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.5rem;
+    }
+
+    .empty-icon svg {
+      width: 30px;
+      height: 30px;
+      stroke: var(--muted);
+      fill: none;
+      stroke-width: 1.5;
+    }
+
+    .empty-cart h3 {
+      font-family: var(--ff-display);
+      font-size: 1.5rem;
+      font-weight: 300;
+      margin-bottom: 0.8rem;
+    }
+
+    .empty-cart p {
+      font-size: 0.88rem;
+      color: var(--muted);
+      margin-bottom: 2rem;
+    }
+
+    /* ── ORDER SUMMARY ────────────────────── */
+    .summary-box {
+      background: #fff;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      position: sticky;
+      top: 100px;
+    }
+
+    .summary-header {
+      padding: 1.8rem 2.2rem;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    }
+
+    .summary-header h2 {
+      font-family: var(--ff-display);
+      font-size: 1.3rem;
+      font-weight: 400;
+    }
+
+    .summary-body {
+      padding: 1.5rem 2.2rem;
+    }
+
+    .summary-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.8rem 0;
+      font-size: 0.88rem;
+      color: var(--muted);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .summary-line.total {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--black);
+      border-bottom: none;
+      padding-top: 1.2rem;
+    }
+
+    .summary-line .line-val {
+      font-weight: 600;
+      color: var(--black);
+    }
+
+    .promo-wrap {
+      margin: 1rem 0;
+      display: flex;
+      gap: 0;
+    }
+
+    .promo-input {
+      flex: 1;
+      padding: 0.75rem 1rem;
+      border: 1.5px solid rgba(0, 0, 0, 0.1);
+      border-right: none;
+      font-family: var(--ff-body);
+      font-size: 0.85rem;
+      outline: none;
+      background: var(--off-white);
+      transition: border-color var(--t);
+    }
+
+    .promo-input:focus {
+      border-color: var(--gold);
+    }
+
+    .promo-apply {
+      padding: 0.75rem 1.2rem;
+      background: var(--black);
+      color: var(--cream);
+      font-family: var(--ff-body);
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      border: none;
+      cursor: pointer;
+      transition: background var(--t);
+    }
+
+    .promo-apply:hover {
+      background: var(--gold);
+    }
+
+    .checkout-btn {
+      display: block;
+      width: 100%;
+      padding: 1.1rem;
+      background: var(--gold);
+      color: #fff;
+      font-family: var(--ff-body);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      text-align: center;
+      border: none;
+      cursor: pointer;
+      transition: background var(--t);
+      margin: 1.5rem 0 1rem;
+    }
+
+    .checkout-btn:hover {
+      background: var(--black);
+    }
+
+    .continue-link {
+      display: block;
+      text-align: center;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color var(--t);
+      margin-bottom: 1.5rem;
+    }
+
+    .continue-link:hover {
+      color: var(--gold);
+    }
+
+    .trust-strip {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      padding: 1.5rem 2.2rem;
+      border-top: 1px solid rgba(0, 0, 0, 0.05);
+      background: var(--off-white);
+    }
+
+    .trust-item {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.76rem;
+      color: var(--muted);
+    }
+
+    .trust-item svg {
+      width: 14px;
+      height: 14px;
+      stroke: var(--gold);
+      fill: none;
+      stroke-width: 2;
+      flex-shrink: 0;
+    }
+
+    /* ── YOU MAY ALSO LIKE ───────────────── */
+    .recs-section {
+      background: var(--cream);
+    }
+
+    .recs-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+
+    @media (max-width:1024px) {
+      .cart-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .summary-box {
+        position: static;
+      }
+
+      .recs-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width:640px) {
+      .cart-item {
+        grid-template-columns: 60px 1fr;
+      }
+
+      .item-controls {
+        grid-column: 1/-1;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .recs-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a href="index.html" class="nav-logo">Brew <em>&</em> Co</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="menu.html">Menu</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div class="nav-right">
+      <a href="cart.html" class="nav-cart">
+        <svg viewBox="0 0 24 24">
+          <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
+          <line x1="3" y1="6" x2="21" y2="6" />
+          <path d="M16 10a4 4 0 01-8 0" />
+        </svg>
+        Cart<span class="cart-count">0</span>
+      </a>
+    </div>
+  </nav>
+
+  <!-- PAGE HERO -->
+  <div class="page-hero" style="padding:120px 5% 50px; background:var(--dark); min-height:unset;">
+    <div class="page-hero-content">
+      <span class="eyebrow anim">Review Your Order</span>
+      <h1 class="display-title anim anim-d1" style="font-size:clamp(2.5rem,5vw,4.5rem);color:#fff;">Your Cart</h1>
+    </div>
+  </div>
+
+  <!-- CART -->
+  <div class="cart-page">
+    <div class="cart-layout">
+
+      <!-- LEFT: Items -->
+      <div>
+        <div class="cart-box">
+          <div class="cart-box-header">
+            <h2>Items</h2>
+            <span id="item-count">0 items</span>
+          </div>
+          <div id="cart-items-container">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: Summary -->
+      <div>
+        <div class="summary-box" id="summary-box">
+          <div class="summary-header">
+            <h2>Order Summary</h2>
+          </div>
+          <div class="summary-body">
+            <div class="summary-line">
+              <span>Subtotal</span>
+              <span class="line-val" id="subtotal">—</span>
+            </div>
+            <div class="summary-line">
+              <span>Shipping</span>
+              <span class="line-val" id="shipping-display">—</span>
+            </div>
+            <div class="summary-line">
+              <span>Tax (est.)</span>
+              <span class="line-val">Calculated at checkout</span>
+            </div>
+            <div class="summary-line total">
+              <span>Total</span>
+              <span id="order-total">—</span>
+            </div>
+
+            <div class="promo-wrap">
+              <input type="text" class="promo-input" placeholder="Promo code">
+              <button class="promo-apply" onclick="showToast('Invalid promo code.')">Apply</button>
+            </div>
+
+            <button class="checkout-btn" onclick="handleCheckout()">Proceed to Checkout →</button>
+            <a href="menu.html" class="continue-link">← Continue Shopping</a>
+          </div>
+
+          <div class="trust-strip">
+            <div class="trust-item">
+              <svg viewBox="0 0 24 24">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              </svg>
+              Secure 256-bit SSL encryption
+            </div>
+            <div class="trust-item">
+              <svg viewBox="0 0 24 24">
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+              Free returns within 30 days
+            </div>
+            <div class="trust-item">
+              <svg viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10" />
+                <polyline points="12 6 12 12 16 14" />
+              </svg>
+              Roasted & shipped within 48 hours
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RECOMMENDATIONS -->
+  <section class="section recs-section">
+    <div class="container">
+      <span class="eyebrow anim">Frequently Bought Together</span>
+      <h2 class="display-title anim anim-d1" style="font-size:clamp(2rem,3.5vw,3rem);">You May Also Like</h2>
+      <div class="recs-grid">
+        <div class="product-card anim">
+          <div class="img-wrap" style="aspect-ratio:4/3">
+            <img src="https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=600&q=80&auto=format&fit=crop"
+              alt="Ethiopian">
+            <div class="img-overlay"></div>
+          </div>
+          <div class="product-body">
+            <div class="product-roast">Light Roast</div>
+            <div class="product-name">Ethiopian Yirgacheffe</div>
+            <div class="product-desc">Complex floral aromas with a bright, clean finish.</div>
+            <div class="product-footer">
+              <div class="product-price">$18.99</div>
+              <button class="add-btn" onclick="addToCart('eth-01','Ethiopian Yirgacheffe',18.99)">Add</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card anim anim-d1">
+          <div class="img-wrap" style="aspect-ratio:4/3">
+            <img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=600&q=80&auto=format&fit=crop"
+              alt="Espresso">
+            <div class="img-overlay"></div>
+          </div>
+          <div class="product-body">
+            <div class="product-roast">Dark Roast</div>
+            <div class="product-name">Midnight Espresso</div>
+            <div class="product-desc">Bold, intense & perfectly balanced for the espresso purist.</div>
+            <div class="product-footer">
+              <div class="product-price">$21.99</div>
+              <button class="add-btn" onclick="addToCart('esp-01','Midnight Espresso',21.99)">Add</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card anim anim-d2">
+          <div class="img-wrap" style="aspect-ratio:4/3">
+            <img src="https://images.unsplash.com/photo-1497636577773-f1231844b336?w=600&q=80&auto=format&fit=crop"
+              alt="Morning Blend">
+            <div class="img-overlay"></div>
+          </div>
+          <div class="product-body">
+            <div class="product-roast">Signature Blend</div>
+            <div class="product-name">The Morning Ritual</div>
+            <div class="product-desc">Our house blend — smooth, approachable, and reliably perfect.</div>
+            <div class="product-footer">
+              <div class="product-price">$14.99</div>
+              <button class="add-btn" onclick="addToCart('mor-01','The Morning Ritual',14.99)">Add</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-top">
+      <div>
+        <a href="index.html" class="footer-logo">Brew <em>&</em> Co</a>
+        <p class="footer-tagline">Premium artisan coffee sourced ethically, roasted with precision, delivered to your
+          door fresh.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Navigate</h5>
+        <a href="index.html">Home</a>
+        <a href="menu.html">Menu</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <div class="footer-col">
+        <h5>Info</h5>
+        <a href="#">Shipping Policy</a>
+        <a href="#">Returns</a>
+        <a href="#">Privacy Policy</a>
+      </div>
+      <div class="footer-col">
+        <h5>Contact</h5>
+        <a href="mailto:hello@brewandco.com">hello@brewandco.com</a>
+        <a href="tel:+12345678900">+1 (234) 567-8900</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 Brew & Co. All rights reserved.</span>
+      <span>Roasted with intention. Shipped with care.</span>
+    </div>
+  </footer>
+
+  <div id="toast"></div>
+  <script src="script.js"></script>
+  <script>
+    /* Product images for cart display */
+    const productImages = {
+      'eth-01': 'https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=200&q=80&auto=format&fit=crop',
+      'col-01': 'https://images.unsplash.com/photo-1498804103079-a6351b050096?auto=format&fit=crop&w=200&q=80',
+      'esp-01': 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=200&q=80&auto=format&fit=crop',
+      'ken-01': 'https://images.unsplash.com/photo-1587734195503-904fca47e6f4?w=200&q=80&auto=format&fit=crop',
+      'gua-01': 'https://images.unsplash.com/photo-1459755486867-b55449bb39ff?w=200&q=80&auto=format&fit=crop',
+      'sum-01': 'https://images.unsplash.com/photo-1504627298434-2822d19b0ee8?w=200&q=80&auto=format&fit=crop',
+      'mor-01': 'https://images.unsplash.com/photo-1497636577773-f1231844b336?w=200&q=80&auto=format&fit=crop',
+      'dec-01': 'https://images.unsplash.com/photo-1572119865084-43c285814d63?w=200&q=80&auto=format&fit=crop',
+    };
+
+    function renderCartPage() {
+      const container = document.getElementById('cart-items-container');
+      const countEl = document.getElementById('item-count');
+      const subtotalEl = document.getElementById('subtotal');
+      const shippingEl = document.getElementById('shipping-display');
+      const totalEl = document.getElementById('order-total');
+
+      const n = cart.reduce((s, i) => s + i.qty, 0);
+      if (countEl) countEl.textContent = `${n} item${n !== 1 ? 's' : ''}`;
+
+      if (!container) return;
+
+      if (cart.length === 0) {
+        container.innerHTML = `
+          <div class="empty-cart">
+            <div class="empty-icon">
+              <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+            </div>
+            <h3>Your cart is empty</h3>
+            <p>Looks like you haven't added anything yet. Explore our menu to find your perfect cup.</p>
+            <a href="menu.html" class="btn btn-dark">Browse the Menu</a>
+          </div>`;
+        if (subtotalEl) subtotalEl.textContent = '$0.00';
+        if (shippingEl) shippingEl.textContent = '—';
+        if (totalEl) totalEl.textContent = '$0.00';
+        return;
+      }
+
+      const subtotal = cart.reduce((s, i) => s + i.price * i.qty, 0);
+      const shipping = subtotal >= 40 ? 0 : 4.99;
+      const total = subtotal + shipping;
+
+      container.innerHTML = cart.map(item => `
+        <div class="cart-item">
+          <div class="item-img">
+            <img src="${productImages[item.id] || 'https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=200&q=80'}" alt="${item.name}">
+          </div>
+          <div class="item-info">
+            <div class="item-type">Premium Coffee</div>
+            <div class="item-name">${item.name}</div>
+            <div class="item-unit-price">$${item.price.toFixed(2)} each</div>
+          </div>
+          <div class="item-controls">
+            <div class="item-total">$${(item.price * item.qty).toFixed(2)}</div>
+            <div class="qty-row">
+              <button class="qty-btn" onclick="changeQty('${item.id}',-1)">−</button>
+              <div class="qty-display">${item.qty}</div>
+              <button class="qty-btn" onclick="changeQty('${item.id}',1)">+</button>
+            </div>
+            <button class="remove-btn" onclick="removeFromCart('${item.id}')">Remove</button>
+          </div>
+        </div>
+      `).join('');
+
+      if (subtotalEl) subtotalEl.textContent = `$${subtotal.toFixed(2)}`;
+      if (shippingEl) shippingEl.textContent = shipping === 0 ? 'Free' : `$${shipping.toFixed(2)}`;
+      if (totalEl) totalEl.textContent = `$${total.toFixed(2)}`;
+    }
+
+    function handleCheckout() {
+      if (cart.length === 0) {
+        showToast('Add items to your cart first.');
+        return;
+      }
+      showToast('Redirecting to secure checkout...');
+    }
+
+    document.addEventListener('DOMContentLoaded', renderCartPage);
+  </script>
+</body>
+
+</html>
